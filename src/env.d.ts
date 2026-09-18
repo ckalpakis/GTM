@@ -1,5 +1,7 @@
 // Secrets/configuration are optional at startup; sourcing validates them before any API call.
 interface Env {
+  ADMIN_TOKEN?: string;
+  SETTER_MODE?: string;
   APIFY_TOKEN?: string;
   CONTACT_RETENTION_SECONDS?: string;
   OPENAI_API_KEY?: string;
@@ -14,6 +16,8 @@ interface Env {
 
 declare namespace Cloudflare {
   interface Env {
+    ADMIN_TOKEN?: string;
+    SETTER_MODE?: string;
     APIFY_TOKEN?: string;
     CONTACT_RETENTION_SECONDS?: string;
     OPENAI_API_KEY?: string;

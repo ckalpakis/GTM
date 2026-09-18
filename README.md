@@ -1,5 +1,17 @@
 # outbound-agent
 
+## Steel Scale operator desk
+
+The app now includes a private outreach dashboard, verified business-event intake,
+conversation-aware AI drafts, manual send tracking, follow-up due dates and a
+Carson/GHL handoff. Start with [the deployment checklist](docs/SETUP.md).
+
+**Default mode is `SETTER_MODE=draft`: no LinkedIn or SMS messages are sent.**
+This bypasses the legacy invitation cron described below. The dashboard requires
+`ADMIN_TOKEN` (32+ random characters) and migration `0008_setter_console.sql`.
+The original backend documentation below describes the optional legacy modules,
+not an enabled automatic outreach system. SMS integration is not implemented.
+
 Cloudflare Worker in TypeScript with Wrangler and D1. The Worker exposes `GET /health`,
 an authenticated Unipile reply webhook, a sender scheduled every 15 minutes, and daily retention cleanup.
 Replies are checked for opt-outs before AI classification; interested contacts are
@@ -119,8 +131,8 @@ records cannot be updated or deleted with ordinary SQL. Use the helpers for inge
 and suppression so profile URL variants resolve to the same identity.
 
 `deleteExpiredContacts(limit)` deletes expired contact data and cascades to messages
-and provenance. It never deletes suppression records. No cleanup cron is enabled yet;
-a future scheduled handler can call this bounded helper.
+and provenance. It never deletes suppression records. The daily cleanup cron calls
+this bounded helper; conversation and handoff records also cascade on deletion.
 
 Drafts include `Reply STOP to opt out.` and start unchecked. After review,
 `queueReviewedMessage(id)` requires the footer and an active, unsuppressed contact

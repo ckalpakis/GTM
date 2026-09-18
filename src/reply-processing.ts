@@ -2,6 +2,7 @@ import { Database, type Contact } from './db';
 import { classifyReply, type ReplyClassification, type ReplyLlmEnvironment } from './reply-classification';
 
 export interface ReplyEnvironment extends ReplyLlmEnvironment {
+  SETTER_MODE?: string;
   DB: D1Database;
   UNIPILE_ACCOUNT_ID?: string;
   UNIPILE_WEBHOOK_SECRET?: string;

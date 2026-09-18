@@ -1,5 +1,6 @@
 import { Database, normalizeLinkedInUrl } from './db';
 import { processReply, type ReplyEnvironment } from './reply-processing';
+import { receive, draftNext, session } from './setter';
 export type { ReplyEnvironment } from './reply-processing';
 
 /** This check must precede every AI classification of replies, including retries. */
@@ -67,5 +68,19 @@ export async function handleUnipileWebhook(request: Request, env: ReplyEnvironme
     }
   }
   if (!resolved) return Response.json({ ignored: true, reason: 'unknown_contact' });
+  if (env.SETTER_MODE === 'draft') {
+    if (resolved.suppressed || resolved.retention_expires_at <= Math.floor(Date.now()/1000) ||
+        await db.getSuppression(providerUrl) || await db.getSuppression(resolved.linkedin_url)) {
+      return Response.json({ ignored: true, reason: 'ineligible_contact' });
+    }
+    const inserted = await receive(env, resolved.id, `unipile:${env.UNIPILE_ACCOUNT_ID}:${event.message_id}`, event.message);
+    if (!inserted) return Response.json({ duplicate: true });
+    const s = await session(env, resolved.id);
+    if (s?.state !== 'active' || !s.signal || !s.qualification_evidence || resolved.icp_status !== 'qualified') {
+      return Response.json({ recorded: true, needs_review: true });
+    }
+    try { return Response.json({ recorded: true, decision: await draftNext(env, resolved.id, fetcher) }); }
+    catch { return Response.json({ recorded: true, needs_review: true }); }
+  }
   return processReply(env, resolved, providerUrl, event.message_id, event.message, fetcher);
 }

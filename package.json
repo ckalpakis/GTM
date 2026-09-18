@@ -8,7 +8,7 @@
     "deploy": "wrangler deploy",
     "typegen": "wrangler types --strict-vars=false",
     "typecheck": "tsc --noEmit && tsc --project tsconfig.test.json",
-    "test": "tsx --test test/*.test.ts",
+    "test": "node --import tsx --test test/*.test.ts",
     "db:create": "wrangler d1 create outbound-agent",
     "db:migrate:local": "wrangler d1 migrations apply DB --local",
     "db:migrate:remote": "wrangler d1 migrations apply DB --remote",

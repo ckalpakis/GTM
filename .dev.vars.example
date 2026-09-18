@@ -1,4 +1,7 @@
 # Copy to .dev.vars and supply your Apify token (never commit .dev.vars).
+# Generate with: openssl rand -hex 32. Used to unlock the operator dashboard.
+ADMIN_TOKEN=""
+SETTER_MODE="draft"
 APIFY_TOKEN=""
 # Set your retention policy in seconds. Required; no implicit policy is chosen.
 CONTACT_RETENTION_SECONDS=""

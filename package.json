@@ -1,0 +1,27 @@
+{
+  "name": "outbound-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typegen": "wrangler types --strict-vars=false",
+    "typecheck": "tsc --noEmit && tsc --project tsconfig.test.json",
+    "test": "tsx --test test/*.test.ts",
+    "db:create": "wrangler d1 create outbound-agent",
+    "db:migrate:local": "wrangler d1 migrations apply DB --local",
+    "db:migrate:remote": "wrangler d1 migrations apply DB --remote",
+    "build": "wrangler deploy --dry-run"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.1",
+    "miniflare": "^5.20260917.0-alpha",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.134.0"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "outbound-agent",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-17",
+  // Sending every 15 minutes; retention cleanup daily at 03:17 UTC.
+  "triggers": { "crons": ["*/15 * * * *", "17 3 * * *"] },
+  // Set both caps explicitly to enable sending. Daily windows use UTC.
+  "vars": { "DAILY_SEND_CAP": "0", "MAX_SENDS_PER_RUN": "0" },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "outbound-agent",
+      // Local development works with this placeholder. Replace with the ID from db:create.
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ]
+}

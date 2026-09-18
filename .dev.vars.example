@@ -1,0 +1,17 @@
+# Copy to .dev.vars and supply your Apify token (never commit .dev.vars).
+APIFY_TOKEN=""
+# Set your retention policy in seconds. Required; no implicit policy is chosen.
+CONTACT_RETENTION_SECONDS=""
+OPENAI_API_KEY=""
+OPENAI_MODEL="gpt-4.1-mini"
+# Required: target roles, company types, mandatory criteria, and exclusions.
+ICP_CRITERIA=""
+UNIPILE_DSN="https://api1.unipile.com:YOUR_PORT"
+UNIPILE_API_KEY=""
+UNIPILE_ACCOUNT_ID=""
+# Use a random secret of at least 32 characters; configure the same Unipile-Auth webhook header.
+UNIPILE_WEBHOOK_SECRET=""
+# Secret URL from your GoHighLevel workflow's Inbound Webhook trigger.
+GHL_WEBHOOK_URL=""
+DAILY_SEND_CAP="0"
+MAX_SENDS_PER_RUN="0"
